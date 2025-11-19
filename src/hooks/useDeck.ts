@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import type { TarotCard, DrawnCard } from '../data/types';
 import { allCards } from '../data';
 import { drawCards } from '../utils/cardHelpers';
+import { THREE_CARD_POSITIONS } from '../data/types';
 
 export function useDeck() {
   const [deck, setDeck] = useState<TarotCard[]>(allCards);
@@ -24,6 +25,14 @@ export function useDeck() {
   // Draw specified number of cards RANDOMLY
   const draw = useCallback((count: number = 1) => {
     const drawn = drawCards(deck, count);
+
+    // Assign positions for three-card spread
+    if (count === 3) {
+      drawn.forEach((card, index) => {
+        card.positionInSpread = THREE_CARD_POSITIONS[index];
+      });
+    }
+
     setDrawnCards(drawn);
 
     // Remove the drawn cards from the deck

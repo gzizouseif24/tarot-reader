@@ -6,6 +6,11 @@ export type Element = 'fire' | 'water' | 'air' | 'earth';
 export type Orientation = 'upright' | 'reversed';
 export type SpreadType = 'single' | 'three-card' | 'celtic-cross';
 export type ThreeCardVariant = 'past-present-future' | 'situation-action-outcome' | 'mind-body-spirit';
+export type ReadingType = 'one' | 'three';
+
+// Position labels for three-card spread
+export const THREE_CARD_POSITIONS = ['Past', 'Present', 'Future'] as const;
+export type ThreeCardPosition = typeof THREE_CARD_POSITIONS[number];
 
 export interface TarotCard {
   id: string;
