@@ -1,7 +1,7 @@
 // src/components/Deck/Deck.tsx
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Shuffle } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import type { TarotCard } from '../../data/types';
 import './Deck.css';
 
@@ -14,7 +14,6 @@ interface DeckProps {
 
 export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps) {
   const [displayCards, setDisplayCards] = useState<TarotCard[]>([]);
-  const prevShufflingRef = useRef(isShuffling);
 
   // Initialize display cards on mount
   useEffect(() => {
@@ -24,18 +23,11 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps
     }
   }, [deck, displayCards.length]);
 
-  // Track shuffle state changes
-  useEffect(() => {
-    prevShufflingRef.current = isShuffling;
-  }, [isShuffling]);
-
-  // Card positioning functions
   const getStackPosition = (index: number) => ({
     x: 0,
     y: -index * 0.5,
     rotate: -index * 0.2,
     scale: 1,
-    opacity: 1,
     zIndex: displayCards.length - index,
   });
 
