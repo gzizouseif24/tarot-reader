@@ -4,6 +4,8 @@ import { Sparkles } from 'lucide-react';
 import { useDeck } from './hooks/useDeck';
 import { Deck } from './components/Deck/Deck';
 import { Card } from './components/Card/Card';
+import { ReadingTypeSelector } from './components/ReadingTypeSelector';
+import type { ReadingType } from './data/types';
 import './App.css';
 
 function App() {
@@ -11,6 +13,7 @@ function App() {
   const [question, setQuestion] = useState('');
   const [isRevealed, setIsRevealed] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [readingType, setReadingType] = useState<ReadingType>('one');
 
   // Preload all card images on mount
   useEffect(() => {
@@ -43,7 +46,8 @@ function App() {
 
   const handleDraw = () => {
     if (question.trim()) {
-      draw(1);
+      const cardCount = readingType === 'one' ? 1 : 3;
+      draw(cardCount);
       // Reveal after a short delay for suspense
       setTimeout(() => setIsRevealed(true), 500);
     } else {
@@ -85,6 +89,12 @@ function App() {
               />
             </div>
 
+            <ReadingTypeSelector
+              selectedType={readingType}
+              onTypeChange={setReadingType}
+              disabled={isShuffling}
+            />
+
             <Deck
               isShuffling={isShuffling}
               cardsRemaining={cardsRemaining}
@@ -105,14 +115,14 @@ function App() {
             </div>
           </>
         ) : (
-          <div className="result-view">
+          <div className={`result-view ${drawnCards.length > 1 ? 'multi-card' : ''}`}>
             {drawnCards.map((card, index) => (
               <Card
                 key={card.id}
                 card={card}
                 isRevealed={isRevealed}
                 index={index}
-                onReset={handleReset}
+                onReset={index === drawnCards.length - 1 ? handleReset : undefined}
               />
             ))}
           </div>

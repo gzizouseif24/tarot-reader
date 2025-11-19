@@ -63,6 +63,15 @@
   padding-top: 1rem;
 }
 
+.card-position {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #9333ea;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
 .card-name {
   font-family: "Times New Roman", serif;
   font-size: 2.5rem;

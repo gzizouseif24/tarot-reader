@@ -183,6 +183,91 @@
   padding: 0 2rem 2rem;
 }
 
+/* Multi-card layout (three-card spread) */
+.result-view.multi-card {
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - 150px);
+  padding-bottom: 3rem;
+}
+
+.result-view.multi-card .card-container {
+  max-width: 700px;
+}
+
+.result-view.multi-card .card {
+  width: 180px;
+  height: 285px;
+}
+
+.result-view.multi-card .card-name {
+  font-size: 1.8rem;
+}
+
+.result-view.multi-card .card-meaning {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.result-view.multi-card .keyword {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.8rem;
+}
+
+/* Desktop: horizontal layout for 3 cards */
+@media (min-width: 1200px) {
+  .result-view.multi-card {
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  .result-view.multi-card .card-container {
+    flex-direction: column;
+    max-width: 320px;
+    padding: 1.5rem;
+  }
+
+  .result-view.multi-card .card-info {
+    padding-top: 1rem;
+    text-align: center;
+  }
+
+  .result-view.multi-card .card-name {
+    text-align: center;
+  }
+
+  .result-view.multi-card .card-keywords {
+    justify-content: center;
+  }
+
+  .result-view.multi-card .card-meaning {
+    text-align: center;
+  }
+
+  .result-view.multi-card .card-orientation {
+    justify-content: center;
+  }
+
+  .result-view.multi-card .card-position {
+    text-align: center;
+    display: block;
+  }
+
+  .result-view.multi-card .btn-new-reading {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
 .app-footer {
   text-align: center;
   padding: 1rem;

@@ -61,6 +61,9 @@ export function Card({ card, isRevealed, index = 0, onReset }: CardProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.5 + 0.8, duration: 0.4 }}
         >
+          {card.positionInSpread && (
+            <span className="card-position">{card.positionInSpread}</span>
+          )}
           <h3 className="card-name">{card.cardName}</h3>
           <p className="card-orientation">
             {card.orientation === 'upright' ? (
