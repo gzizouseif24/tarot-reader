@@ -8,8 +8,8 @@
 
 .deck-stack {
   position: relative;
-  width: 175px;
-  height: 250px;
+  width: 210px;
+  height: 300px;
   cursor: pointer;
   /* Add perspective for subtle 3D feel */
   perspective: 1000px;
@@ -43,7 +43,7 @@
 .deck-card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.3),

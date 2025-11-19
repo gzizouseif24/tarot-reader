@@ -82,12 +82,12 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
   // Get stack position for a card at given index (FIXED: no random rotation)
   const getStackPosition = (index: number) => ({
     x: 0,
-    y: -index * 1.5,
+    y: -index * 1.8,
     rotate: -index * 0.3, // Consistent rotation based on index only
   });
 
 
-  // Main shuffle animation - TWO ITERATIONS
+  // Main shuffle animation
   const performShuffle = useCallback(async () => {
     if (isAnimatingRef.current || displayCards.length === 0) return;
     isAnimatingRef.current = true;
@@ -102,7 +102,7 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
       return;
     }
 
-    const SHUFFLE_ITERATIONS = 2;
+    const SHUFFLE_ITERATIONS = 1;
 
     // Run shuffle animation twice
     for (let iteration = 0; iteration < SHUFFLE_ITERATIONS; iteration++) {
@@ -128,7 +128,7 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
           animateCard(
             item.element,
             {
-              x: -87.5 + Math.random() * 10,
+              x: -105 + Math.random() * 10,
               y: -pileIndex * 1.5,
               rotate: -8 + Math.random() * 3
             },
@@ -145,7 +145,7 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
           animateCard(
             item.element,
             {
-              x: 87.5 + Math.random() * 10,
+              x: 105 + Math.random() * 10,
               y: -pileIndex * 1.5,
               rotate: 8 + Math.random() * 3
             },
