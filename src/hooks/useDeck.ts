@@ -14,8 +14,8 @@ export function useDeck() {
   const shuffle = useCallback(async () => {
     setIsShuffling(true);
     
-    // Simulate shuffle animation duration (match animation: 2500ms + stagger delays)
-    await new Promise(resolve => setTimeout(resolve, 2700));
+    // Simulate shuffle animation duration (match animation: 2800ms + stagger delays)
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
     const shuffled = shuffleDeck(allCards);
     setDeck(shuffled);

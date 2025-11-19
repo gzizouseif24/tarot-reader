@@ -1,5 +1,5 @@
 // src/components/Deck/Deck.tsx
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Shuffle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import type { TarotCard } from '../../data/types';
@@ -14,6 +14,7 @@ interface DeckProps {
 
 export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps) {
   const [displayCards, setDisplayCards] = useState<TarotCard[]>([]);
+  const [hasSwapped, setHasSwapped] = useState(false);
 
   // Initialize display cards on mount
   useEffect(() => {
@@ -23,6 +24,23 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps
     }
   }, [deck, displayCards.length]);
 
+  // Handle shuffle completion
+  useEffect(() => {
+    if (!isShuffling && hasSwapped) {
+      // Animation finished, reset flag
+      setHasSwapped(false);
+    } else if (isShuffling && !hasSwapped) {
+      // Swap cards at midpoint
+      const timer = setTimeout(() => {
+        const randomStartIndex = Math.floor(Math.random() * Math.max(0, deck.length - 6));
+        setDisplayCards(deck.slice(randomStartIndex, randomStartIndex + 6));
+        setHasSwapped(true);
+      }, 1400); // 50% of 2.8s animation
+
+      return () => clearTimeout(timer);
+    }
+  }, [isShuffling, hasSwapped, deck]);
+
   const getStackPosition = (index: number) => ({
     x: 0,
     y: -index * 0.5,
@@ -30,25 +48,6 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps
     scale: 1,
     zIndex: displayCards.length - index,
   });
-
-  const getShufflePosition = (index: number, phase: number) => {
-    const isLeftPile = index % 2 === 0;
-    const baseOffset = isLeftPile ? -100 : 100;
-    const verticalSpread = -Math.floor(index / 2) * 2;
-    const washX = Math.sin(phase * Math.PI * 2 + index) * 15;
-    const washY = Math.cos(phase * Math.PI * 2 + index) * 8;
-    const washRotate = Math.sin(phase * Math.PI * 4 + index) * 5;
-
-    return {
-      x: baseOffset + washX,
-      y: verticalSpread + washY,
-      rotate: (isLeftPile ? -3 : 3) + washRotate,
-      scale: 1.02 + Math.sin(phase * Math.PI * 2 + index) * 0.05,
-      zIndex: isLeftPile 
-        ? displayCards.length - Math.floor(index / 2) 
-        : displayCards.length + Math.floor(index / 2),
-    };
-  };
 
   if (displayCards.length === 0) return null;
 
@@ -59,50 +58,63 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck }: DeckProps
         onClick={!isShuffling ? onShuffle : undefined}
         style={{ cursor: isShuffling ? 'default' : 'pointer' }}
       >
-        <LayoutGroup>
-          <AnimatePresence mode="popLayout">
-            {displayCards.map((card, index) => {
-              const stackPos = getStackPosition(index);
-              const phase1 = getShufflePosition(index, 0);
-              const phase2 = getShufflePosition(index, 0.25);
-              const phase3 = getShufflePosition(index, 0.5);
-              const phase4 = getShufflePosition(index, 0.75);
+        {displayCards.map((card, index) => {
+          const stackPos = getStackPosition(index);
 
-              return (
-                <motion.div
-                  key={card.id}
-                  layoutId={`card-${card.id}`}
-                  className="deck-card-riffle"
-                  style={{ zIndex: isShuffling ? phase2.zIndex : stackPos.zIndex }}
-                  initial={false}
-                  animate={isShuffling ? {
-                    x: [stackPos.x, phase1.x, phase2.x, phase3.x, phase4.x, phase3.x, phase2.x, phase1.x, stackPos.x],
-                    y: [stackPos.y, phase1.y, phase2.y, phase3.y, phase4.y, phase3.y, phase2.y, phase1.y, stackPos.y],
-                    rotate: [stackPos.rotate, phase1.rotate, phase2.rotate, phase3.rotate, phase4.rotate, phase3.rotate, phase2.rotate, phase1.rotate, stackPos.rotate],
-                    scale: [1, phase1.scale, phase2.scale, phase3.scale, phase4.scale, phase3.scale, phase2.scale, phase1.scale, 1],
-                    transition: {
-                      duration: 2.5,
-                      times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.85, 0.95, 1],
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                      delay: index * 0.03
-                    }
-                  } : stackPos}
-                  layout
-                  transition={{ layout: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } }}
-                >
-                  <div className="card-riffle-wrapper">
-                    <img
-                      src={card.image}
-                      alt={`${card.cardName} preview`}
-                      className="deck-card-image-riffle"
-                    />
-                    <div className="card-riffle-shadow"></div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </LayoutGroup>
+          return (
+            <motion.div
+              key={`card-${index}`}
+              className="deck-card-riffle"
+              style={{ 
+                position: 'absolute',
+                zIndex: stackPos.zIndex 
+              }}
+              animate={isShuffling ? {
+                // Riffle shuffle: split left/right, lift, interleave back
+                x: [
+                  stackPos.x,
+                  index % 2 === 0 ? -90 : 90,   // Split wider
+                  index % 2 === 0 ? -90 : 90,   // Hold position
+                  index % 2 === 0 ? -20 : 20,   // Move closer for interleave
+                  0,                             // Merge at center
+                  stackPos.x                     // Return to stack
+                ],
+                y: [
+                  stackPos.y,
+                  -Math.floor(index / 2) * 4 - 15,  // Lift higher
+                  -Math.floor(index / 2) * 4 - 15,  // Hold lifted
+                  -Math.floor(index / 2) * 3,       // Start descending
+                  -index * 0.8,                     // Interleave descent
+                  stackPos.y                         // Return to stack
+                ],
+                rotate: [
+                  stackPos.rotate,
+                  index % 2 === 0 ? -12 : 12,   // Tilt more
+                  index % 2 === 0 ? -12 : 12,   // Hold tilt
+                  index % 2 === 0 ? -5 : 5,     // Reduce tilt
+                  0,                             // Straighten
+                  stackPos.rotate                // Return to stack angle
+                ],
+                scale: [1, 1.05, 1.05, 1, 1, 1],
+                transition: {
+                  duration: 2.8,
+                  times: [0, 0.2, 0.4, 0.55, 0.75, 1],
+                  ease: [0.34, 0.51, 0.45, 0.94],  // Custom smooth easing
+                  delay: index * 0.03
+                }
+              } : stackPos}
+            >
+              <div className="card-riffle-wrapper">
+                <img
+                  src={card.image}
+                  alt={`${card.cardName} preview`}
+                  className="deck-card-image-riffle"
+                />
+                <div className="card-riffle-shadow"></div>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       <div className="deck-info">

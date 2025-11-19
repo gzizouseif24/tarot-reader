@@ -1,5 +1,5 @@
 // src/App.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import { useDeck } from './hooks/useDeck';
 import { Deck } from './components/Deck/Deck';
@@ -10,6 +10,31 @@ function App() {
   const { deck, drawnCards, isShuffling, shuffle, draw, reset, cardsRemaining } = useDeck();
   const [question, setQuestion] = useState('');
   const [isRevealed, setIsRevealed] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Preload all card images on mount
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = deck.map((card) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = card.image;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+        setImagesLoaded(true); // Continue anyway
+      }
+    };
+
+    preloadImages();
+  }, [deck]);
 
   const handleShuffle = async () => {
     setIsRevealed(false);
@@ -40,7 +65,12 @@ function App() {
       </header>
 
       <main className="app-main">
-        {drawnCards.length === 0 ? (
+        {!imagesLoaded ? (
+          <div className="loading-container">
+            <Sparkles size={48} className="loading-icon" />
+            <p>Loading cards...</p>
+          </div>
+        ) : drawnCards.length === 0 ? (
           <>
             <div className="intention-container">
               <input
