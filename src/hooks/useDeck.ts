@@ -2,7 +2,6 @@
 import { useState, useCallback } from 'react';
 import type { TarotCard, DrawnCard } from '../data/types';
 import { allCards } from '../data';
-import { shuffleDeck } from '../utils/shuffle';
 import { drawCards } from '../utils/cardHelpers';
 
 export function useDeck() {
@@ -10,15 +9,15 @@ export function useDeck() {
   const [isShuffling, setIsShuffling] = useState(false);
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
 
-  // Shuffle the deck
-  const shuffle = useCallback(async () => {
+  // Start shuffle animation
+  const shuffle = useCallback(() => {
     setIsShuffling(true);
-    
-    // Simulate shuffle animation duration (match animation: 2800ms + stagger delays)
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    const shuffled = shuffleDeck(allCards);
-    setDeck(shuffled);
+    // Animation will call handleShuffleComplete when done
+  }, []);
+
+  // Called by Deck component when animation completes
+  const handleShuffleComplete = useCallback((newOrder: TarotCard[]) => {
+    setDeck(newOrder);
     setIsShuffling(false);
   }, []);
 
@@ -26,10 +25,7 @@ export function useDeck() {
   const draw = useCallback((count: number = 1) => {
     const drawn = drawCards(deck, count);
     setDrawnCards(drawn);
-    
-    // Remove drawn cards from deck
     setDeck(prevDeck => prevDeck.slice(count));
-    
     return drawn;
   }, [deck]);
 
@@ -45,6 +41,7 @@ export function useDeck() {
     drawnCards,
     isShuffling,
     shuffle,
+    handleShuffleComplete,
     draw,
     reset,
     cardsRemaining: deck.length

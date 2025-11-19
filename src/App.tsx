@@ -7,7 +7,7 @@ import { Card } from './components/Card/Card';
 import './App.css';
 
 function App() {
-  const { deck, drawnCards, isShuffling, shuffle, draw, reset, cardsRemaining } = useDeck();
+  const { deck, drawnCards, isShuffling, shuffle, handleShuffleComplete, draw, reset, cardsRemaining } = useDeck();
   const [question, setQuestion] = useState('');
   const [isRevealed, setIsRevealed] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -83,11 +83,12 @@ function App() {
               />
             </div>
 
-            <Deck 
+            <Deck
               isShuffling={isShuffling}
               cardsRemaining={cardsRemaining}
               onShuffle={handleShuffle}
               deck={deck}
+              onShuffleComplete={handleShuffleComplete}
             />
 
             <div className="control-dock">
@@ -101,7 +102,7 @@ function App() {
               </button>
             </div>
           </>
-) : (
+        ) : (
           <div className="result-view">
             {drawnCards.map((card, index) => (
               <Card

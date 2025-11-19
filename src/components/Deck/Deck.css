@@ -1,102 +1,84 @@
-
-/* Riffle Card Image */
-.deck-card-image-riffle {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Ensures the full card image fills the container exactly */
-  border-radius: 16px;
-  display: block;
-  pointer-events: none;
-  backface-visibility: hidden;
-}
-
-/* src/components/Deck/Deck.css */
 .deck-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  width: 100%;
-  perspective: 1000px;
-  perspective-origin: center center;
+  gap: 1.5rem;
+  padding: 2rem 0;
 }
 
 .deck-stack {
   position: relative;
-  width: 200px; /* Slightly wider for better presence */
-  height: 300px;
-  margin: 0 auto;
-  transform-style: preserve-3d;
-  transition: transform 0.2s ease;
+  width: 140px;
+  height: 200px;
+  cursor: pointer;
+  /* Add perspective for subtle 3D feel */
+  perspective: 1000px;
 }
 
 .deck-stack:hover {
-  transform: translateY(-5px);
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
 }
 
-/* Riffle Shuffle Card Container */
-.deck-card-riffle {
+.shuffle-active .deck-stack {
+  cursor: default;
+}
+
+.shuffle-active .deck-stack:hover {
+  transform: none;
+}
+
+.deck-card {
   position: absolute;
-  width: 160px; /* Hero size */
-  height: 260px;
-  left: 50%;
-  top: 50%;
-  margin-left: -80px;
-  margin-top: -130px;
-  transform-style: preserve-3d;
-  will-change: transform;
-  cursor: pointer;
-}
-
-/* Remove old card wrapper styles and replace with premium look */
-.card-riffle-wrapper {
-  position: relative;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 16px; /* Softer corners */
-  overflow: hidden;
-  background: linear-gradient(145deg, #0f172a, #1e293b);
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* GPU acceleration */
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
-.deck-card-riffle:hover .card-riffle-wrapper {
+.deck-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
   box-shadow:
-    0 20px 40px rgba(147, 51, 234, 0.2), /* Purple glow on hover */
-    0 0 20px rgba(251, 191, 36, 0.1); /* Subtle gold glow */
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  user-select: none;
 }
 
 .deck-info {
   text-align: center;
-  margin-top: 1rem;
 }
 
 .cards-remaining {
-  color: rgba(148, 163, 184, 0.8);
-  font-size: 0.85rem;
-  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }
 
 .shuffle-icon {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 0.25rem;
+  opacity: 0.8;
 }
 
 .shuffle-icon.spinning {
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
