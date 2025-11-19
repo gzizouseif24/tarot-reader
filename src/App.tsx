@@ -57,6 +57,7 @@ function App() {
               isShuffling={isShuffling}
               cardsRemaining={cardsRemaining}
               onShuffle={handleShuffle}
+              deck={deck}
             />
 
             <div className="control-dock">
