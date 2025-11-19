@@ -20,12 +20,14 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
   const hasInitializedRef = useRef(false);
 
   // Number of cards to show in visual stack
-  const DISPLAY_COUNT = 8;
+  const DISPLAY_COUNT = 20;
 
-  // Initialize display cards ONCE
+  // Initialize display cards ONCE with random selection
   useEffect(() => {
     if (deck.length > 0 && displayCards.length === 0) {
-      setDisplayCards(deck.slice(0, DISPLAY_COUNT));
+      // Shuffle first so different cards appear each time
+      const shuffled = [...deck].sort(() => Math.random() - 0.5);
+      setDisplayCards(shuffled.slice(0, DISPLAY_COUNT));
     }
   }, [deck.length, displayCards.length, DISPLAY_COUNT]);
 
@@ -106,12 +108,13 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
 
     // Run shuffle animation twice
     for (let iteration = 0; iteration < SHUFFLE_ITERATIONS; iteration++) {
-      // PHASE 1: Assign cards randomly to left/right piles
+      // PHASE 1: Split cards into left/right piles - CONSISTENT PATTERN
       const leftPile: typeof currentCards = [];
       const rightPile: typeof currentCards = [];
 
-      currentCards.forEach(item => {
-        if (Math.random() < 0.5) {
+      // Use alternating pattern for consistent animation (not random)
+      currentCards.forEach((item, index) => {
+        if (index % 2 === 0) {
           leftPile.push(item);
         } else {
           rightPile.push(item);
@@ -160,21 +163,17 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
       // Small pause at split
       await new Promise(r => setTimeout(r, 150));
 
-      // PHASE 2: Interleave cards back together (this creates the new order)
+      // PHASE 2: Recombine - Pick from RIGHT pile first (right cards end up on top)
       const newOrder: typeof currentCards = [];
 
-      while (leftPile.length > 0 || rightPile.length > 0) {
-        // Randomly pick from left or right (like a real riffle)
-        // But favor the pile with more cards for natural distribution
-        const leftChance = leftPile.length / (leftPile.length + rightPile.length);
+      // Take all cards from right pile first (they'll be on top)
+      while (rightPile.length > 0) {
+        newOrder.push(rightPile.shift()!);
+      }
 
-        if (Math.random() < leftChance && leftPile.length > 0) {
-          newOrder.push(leftPile.shift()!);
-        } else if (rightPile.length > 0) {
-          newOrder.push(rightPile.shift()!);
-        } else {
-          newOrder.push(leftPile.shift()!);
-        }
+      // Then take cards from left pile (they'll be underneath)
+      while (leftPile.length > 0) {
+        newOrder.push(leftPile.shift()!);
       }
 
       // PHASE 3: Animate to final stack positions in NEW order
@@ -184,6 +183,8 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle, deck, onShuffleCo
         if (!item.element) return;
 
         const finalPos = getStackPosition(newIndex);
+        // REVERSED z-index: First cards to animate back get highest z-index
+        // Later cards slide UNDER them with lower z-index
         item.element.style.zIndex = String(currentCards.length - newIndex);
 
         stackPromises.push(

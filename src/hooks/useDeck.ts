@@ -21,11 +21,15 @@ export function useDeck() {
     setIsShuffling(false);
   }, []);
 
-  // Draw specified number of cards
+  // Draw specified number of cards RANDOMLY
   const draw = useCallback((count: number = 1) => {
     const drawn = drawCards(deck, count);
     setDrawnCards(drawn);
-    setDeck(prevDeck => prevDeck.slice(count));
+
+    // Remove the drawn cards from the deck
+    const drawnIds = new Set(drawn.map(c => c.id));
+    setDeck(prevDeck => prevDeck.filter(card => !drawnIds.has(card.id)));
+
     return drawn;
   }, [deck]);
 

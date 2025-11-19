@@ -13,7 +13,7 @@ export function assignOrientation(): Orientation {
  */
 export function drawCard(card: TarotCard): DrawnCard {
   const orientation = assignOrientation();
-  
+
   return {
     ...card,
     orientation
@@ -21,15 +21,25 @@ export function drawCard(card: TarotCard): DrawnCard {
 }
 
 /**
- * Draw multiple cards from a shuffled deck
+ * Draw multiple cards RANDOMLY from the deck (not related to shuffle order)
  */
 export function drawCards(deck: TarotCard[], count: number): DrawnCard[] {
   const drawn: DrawnCard[] = [];
-  
-  for (let i = 0; i < count && i < deck.length; i++) {
-    drawn.push(drawCard(deck[i]));
+
+  // Create a copy to avoid mutating original deck
+  const availableCards = [...deck];
+
+  for (let i = 0; i < count && availableCards.length > 0; i++) {
+    // Pick a random index
+    const randomIndex = Math.floor(Math.random() * availableCards.length);
+
+    // Draw the card at that random index
+    drawn.push(drawCard(availableCards[randomIndex]));
+
+    // Remove it from available cards so we don't draw it again
+    availableCards.splice(randomIndex, 1);
   }
-  
+
   return drawn;
 }
 
@@ -37,8 +47,8 @@ export function drawCards(deck: TarotCard[], count: number): DrawnCard[] {
  * Get the appropriate meaning based on orientation
  */
 export function getCardMeaning(card: DrawnCard): string {
-  return card.orientation === 'upright' 
-    ? card.uprightMeaning 
+  return card.orientation === 'upright'
+    ? card.uprightMeaning
     : card.reversedMeaning;
 }
 

@@ -55,6 +55,8 @@ function App() {
     reset();
     setQuestion('');
     setIsRevealed(false);
+    // Wait for reset to complete before shuffling
+    setTimeout(() => shuffle(), 100);
   };
 
   return (
