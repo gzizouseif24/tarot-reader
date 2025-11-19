@@ -8,8 +8,8 @@
 
 .deck-stack {
   position: relative;
-  width: 140px;
-  height: 200px;
+  width: 175px;
+  height: 250px;
   cursor: pointer;
   /* Add perspective for subtle 3D feel */
   perspective: 1000px;
