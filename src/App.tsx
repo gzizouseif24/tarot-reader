@@ -1,6 +1,6 @@
 // src/App.tsx
 import { useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, RotateCcw } from 'lucide-react';
 import { useDeck } from './hooks/useDeck';
 import { Deck } from './components/Deck/Deck';
 import { Card } from './components/Card/Card';
@@ -115,17 +115,25 @@ function App() {
             </div>
           </>
         ) : (
-          <div className={`result-view ${drawnCards.length > 1 ? 'multi-card' : ''}`}>
-            {drawnCards.map((card, index) => (
-              <Card
-                key={card.id}
-                card={card}
-                isRevealed={isRevealed}
-                index={index}
-                onReset={index === drawnCards.length - 1 ? handleReset : undefined}
-              />
-            ))}
-          </div>
+          <>
+            <div className={`result-view ${drawnCards.length > 1 ? 'multi-card' : ''}`}>
+              {drawnCards.map((card, index) => (
+                <Card
+                  key={card.id}
+                  card={card}
+                  isRevealed={isRevealed}
+                  index={index}
+                  onReset={drawnCards.length === 1 ? handleReset : undefined}
+                />
+              ))}
+            </div>
+            {drawnCards.length > 1 && isRevealed && (
+              <button className="btn-new-reading-global" onClick={handleReset}>
+                <RotateCcw size={16} />
+                New Reading
+              </button>
+            )}
+          </>
         )}
       </main>
 

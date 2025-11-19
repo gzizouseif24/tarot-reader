@@ -80,7 +80,7 @@
 /* Intention Input - Floating Pill */
 .intention-container {
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -266,6 +266,31 @@
     margin-top: 1rem;
     width: 100%;
   }
+}
+
+/* Global New Reading button for multi-card view */
+.btn-new-reading-global {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-new-reading-global:hover {
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
 }
 
 .app-footer {
