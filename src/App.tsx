@@ -34,19 +34,15 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">🔮 Tarot Card Puller</h1>
-        <p className="app-subtitle">Connect with your intuition</p>
+        <h1 className="app-title">Celestial Tarot</h1>
+        <p className="app-subtitle">Seek Guidance from the Void</p>
       </header>
 
       <main className="app-main">
         {drawnCards.length === 0 ? (
           <>
-            <section className="intention-section">
-              <label htmlFor="question" className="intention-label">
-                Set Your Intention
-              </label>
+            <div className="intention-container">
               <input
-                id="question"
                 type="text"
                 className="intention-input"
                 placeholder="What guidance do you seek?"
@@ -54,48 +50,48 @@ function App() {
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={isShuffling}
               />
-            </section>
+            </div>
 
-            <section className="deck-section">
-              <Deck 
-                isShuffling={isShuffling}
-                cardsRemaining={cardsRemaining}
-                onShuffle={handleShuffle}
-              />
+            <Deck 
+              isShuffling={isShuffling}
+              cardsRemaining={cardsRemaining}
+              onShuffle={handleShuffle}
+            />
 
+            <div className="control-dock">
               <button
-                className="draw-button"
+                className="btn-secondary"
+                onClick={handleShuffle}
+                disabled={isShuffling}
+              >
+                🔀 Shuffle
+              </button>
+              <button
+                className="btn-primary"
                 onClick={handleDraw}
                 disabled={isShuffling || !question.trim()}
               >
-                ✨ Draw Card
+                ✨ Reveal Destiny
               </button>
-            </section>
+            </div>
           </>
-        ) : (
-          <>
-            <section className="reading-section">
-              <div className="question-display">
-                <p className="question-label">Your Question:</p>
-                <p className="question-text">"{question}"</p>
-              </div>
+) : (
+          <div className="result-view">
+            {drawnCards.map((card, index) => (
+              <Card
+                key={card.id}
+                card={card}
+                isRevealed={isRevealed}
+                index={index}
+              />
+            ))}
 
-              <div className="cards-display">
-                {drawnCards.map((card, index) => (
-                  <Card
-                    key={card.id}
-                    card={card}
-                    isRevealed={isRevealed}
-                    index={index}
-                  />
-                ))}
-              </div>
-
-              <button className="reset-button" onClick={handleReset}>
+            <div className="result-actions">
+              <button className="btn-secondary" onClick={handleReset}>
                 🔄 New Reading
               </button>
-            </section>
-          </>
+            </div>
+          </div>
         )}
       </main>
 

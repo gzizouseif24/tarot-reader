@@ -27,8 +27,8 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
   // Get position for stacked cards
   const getStackPosition = (index: number) => ({
     x: 0,
-    y: -index * 3,
-    rotate: -index * 0.8,
+    y: -index * 0.5, // Tighter stack
+    rotate: -index * 0.2, // Settle rotation
     scale: 1,
     opacity: 1,
     zIndex: totalCards - index,
@@ -37,11 +37,11 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
   // Get dynamic shuffle position with washing motion
   const getShufflePosition = (index: number, phase: number) => {
     const isLeftPile = index % 2 === 0;
-    const baseOffset = isLeftPile ? -140 : 140;
-    const verticalSpread = -Math.floor(index / 2) * 12;
+    const baseOffset = isLeftPile ? -100 : 100;
+    const verticalSpread = -Math.floor(index / 2) * 2;
 
     // Add washing motion - cards move around within piles
-    const washX = Math.sin(phase * Math.PI * 2 + index) * 20;
+    const washX = Math.sin(phase * Math.PI * 2 + index) * 15;
     const washY = Math.cos(phase * Math.PI * 2 + index) * 8;
     const washRotate = Math.sin(phase * Math.PI * 4 + index) * 5;
 

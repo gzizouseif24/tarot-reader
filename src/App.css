@@ -1,197 +1,196 @@
-/* src/App.css */
+:root {
+  --color-bg-deep: #020617;
+  --color-bg-cosmic: #0f172a;
+  --color-accent-primary: #9333ea; /* Purple */
+  --color-accent-secondary: #7c3aed; /* Violet */
+  --color-gold: #fbbf24;
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(148, 163, 184, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  --font-heading: "Times New Roman", serif; /* Fallback to a classic serif */
+  --font-body: system-ui, -apple-system, sans-serif;
+}
+
 .app {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
-  color: #f3f4f6;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #020617 60%);
+  color: var(--color-text-main);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+/* Ambient Background Stars/Nebula effect could be added here */
+.app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
 }
 
 .app-header {
+  position: relative;
+  z-index: 10;
   text-align: center;
-  padding: 2rem 1rem;
-  border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+  padding: 1rem;
+  background: linear-gradient(to bottom, rgba(2, 6, 23, 0.8), transparent);
 }
 
 .app-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #f59e0b;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 4px;
   margin: 0;
-  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
 }
 
 .app-subtitle {
-  color: #9ca3af;
-  font-size: 1.1rem;
-  margin: 0.5rem 0 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
 }
 
 .app-main {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 3rem 1rem;
-  gap: 3rem;
-  min-height: calc(100vh - 200px);
+  justify-content: center; /* Centers the Altar */
+  perspective: 1000px;
 }
 
-.intention-section {
+/* Intention Input - Floating Pill */
+.intention-container {
+  position: relative;
+  margin-bottom: 2rem;
   width: 100%;
-  max-width: 500px;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.intention-label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #a855f7;
-  text-align: center;
+  justify-content: center;
+  z-index: 20;
 }
 
 .intention-input {
-  width: 100%;
-  padding: 1rem 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-main);
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  width: 320px;
+  text-align: center;
   font-size: 1rem;
-  background: rgba(26, 26, 46, 0.8);
-  border: 2px solid rgba(147, 51, 234, 0.3);
-  border-radius: 8px;
-  color: #f3f4f6;
   transition: all 0.3s ease;
+  box-shadow: var(--glass-shadow);
 }
 
 .intention-input:focus {
   outline: none;
-  border-color: #9333ea;
-  box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+  width: 360px;
 }
 
 .intention-input::placeholder {
-  color: #6b7280;
+  color: rgba(148, 163, 184, 0.6);
 }
 
-.deck-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.draw-buttons {
+/* Control Dock */
+.control-dock {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 2rem;
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.draw-button,
-.reset-button {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: #0f0f1e;
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  color: white;
   border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
-.draw-button-three {
-  background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
-  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
-}
-
-.draw-button-three:hover:not(:disabled) {
-  box-shadow: 0 6px 30px rgba(147, 51, 234, 0.6);
-}
-
-.draw-button:hover:not(:disabled),
-.reset-button:hover {
+.btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
 }
 
-.draw-button:active:not(:disabled),
-.reset-button:active {
-  transform: translateY(0);
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--glass-border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.draw-button:disabled {
+.btn-secondary:hover {
+  color: var(--color-text-main);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  filter: grayscale(0.5);
 }
 
-.reading-section {
-  width: 100%;
-  max-width: 1000px;
+/* Result View specific */
+.result-view {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 2rem;
+  max-width: 1100px;
+  padding: 0 2rem 2rem;
 }
 
-.question-display {
-  text-align: center;
-  padding: 1.5rem;
-  background: rgba(26, 26, 46, 0.6);
-  border-radius: 12px;
-  border: 1px solid rgba(147, 51, 234, 0.2);
-  width: 100%;
-}
-
-.question-label {
-  color: #9ca3af;
-  font-size: 0.9rem;
-  margin: 0 0 0.5rem 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.question-text {
-  color: #f59e0b;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin: 0;
-  font-style: italic;
-}
-
-.cards-display {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1200px;
+.result-actions {
+  align-self: flex-end;
 }
 
 .app-footer {
   text-align: center;
-  padding: 2rem 1rem;
-  border-top: 1px solid rgba(147, 51, 234, 0.2);
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .app-title {
-    font-size: 2rem;
-  }
-
-  .app-main {
-    padding: 2rem 1rem;
-    gap: 2rem;
-  }
-
-  .cards-display {
-    flex-direction: column;
-    align-items: center;
-  }
+  padding: 1rem;
+  color: rgba(148, 163, 184, 0.4);
+  font-size: 0.7rem;
+  z-index: 1;
 }
