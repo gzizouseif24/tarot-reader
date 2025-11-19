@@ -1,5 +1,6 @@
 // src/components/Deck/Deck.tsx
 import { motion, AnimatePresence } from 'framer-motion';
+import { Shuffle } from 'lucide-react';
 import { useDeck } from '../../hooks/useDeck';
 import { useState, useEffect } from 'react';
 import './Deck.css';
@@ -57,7 +58,11 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
 
   return (
     <div className={`deck-container ${isShuffling ? 'shuffle-active' : ''}`}>
-      <div className="deck-stack">
+      <div 
+        className="deck-stack"
+        onClick={!isShuffling ? onShuffle : undefined}
+        style={{ cursor: isShuffling ? 'default' : 'pointer' }}
+      >
         <AnimatePresence mode="sync">
           {currentCards.map((card, index) => {
             const stackPos = getStackPosition(index);
@@ -125,16 +130,19 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
       </div>
 
       <div className="deck-info">
-        <p className="cards-remaining">{cardsRemaining} cards remaining</p>
+        <p className="cards-remaining">
+          {isShuffling ? (
+            <>
+              <Shuffle size={14} className="shuffle-icon spinning" />
+              Shuffling...
+            </>
+          ) : (
+            <>
+              {cardsRemaining} cards • Click to shuffle
+            </>
+          )}
+        </p>
       </div>
-
-      <button
-        className="shuffle-button"
-        onClick={onShuffle}
-        disabled={isShuffling}
-      >
-        {isShuffling ? '🔀 Shuffling...' : '🔀 Shuffle Deck'}
-      </button>
     </div>
   );
 }

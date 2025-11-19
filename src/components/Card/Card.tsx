@@ -1,5 +1,6 @@
 // src/components/Card/Card.tsx
 import { motion } from 'framer-motion';
+import { ArrowUp, ArrowDown, RotateCcw } from 'lucide-react';
 import type { DrawnCard } from '../../data/types';
 import { getCardMeaning } from '../../utils/cardHelpers';
 import './Card.css';
@@ -8,9 +9,10 @@ interface CardProps {
   card: DrawnCard;
   isRevealed: boolean;
   index?: number;
+  onReset?: () => void;
 }
 
-export function Card({ card, isRevealed, index = 0 }: CardProps) {
+export function Card({ card, isRevealed, index = 0, onReset }: CardProps) {
   const meaning = getCardMeaning(card);
 
   return (
@@ -61,7 +63,17 @@ export function Card({ card, isRevealed, index = 0 }: CardProps) {
         >
           <h3 className="card-name">{card.cardName}</h3>
           <p className="card-orientation">
-            {card.orientation === 'upright' ? '⬆️ Upright' : '⬇️ Reversed'}
+            {card.orientation === 'upright' ? (
+              <>
+                <ArrowUp size={16} />
+                Upright
+              </>
+            ) : (
+              <>
+                <ArrowDown size={16} />
+                Reversed
+              </>
+            )}
           </p>
           <div className="card-keywords">
             {card.keywords.map((keyword, i) => (
@@ -70,6 +82,19 @@ export function Card({ card, isRevealed, index = 0 }: CardProps) {
           </div>
           <p className="card-meaning">{meaning}</p>
         </motion.div>
+      )}
+
+      {isRevealed && onReset && (
+        <motion.button
+          className="btn-new-reading"
+          onClick={onReset}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: index * 0.5 + 1.2, duration: 0.3 }}
+        >
+          <RotateCcw size={16} />
+          New Reading
+        </motion.button>
       )}
     </div>
   );

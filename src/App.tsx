@@ -1,5 +1,6 @@
 // src/App.tsx
 import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import { useDeck } from './hooks/useDeck';
 import { Deck } from './components/Deck/Deck';
 import { Card } from './components/Card/Card';
@@ -60,18 +61,12 @@ function App() {
 
             <div className="control-dock">
               <button
-                className="btn-secondary"
-                onClick={handleShuffle}
-                disabled={isShuffling}
-              >
-                🔀 Shuffle
-              </button>
-              <button
                 className="btn-primary"
                 onClick={handleDraw}
                 disabled={isShuffling || !question.trim()}
               >
-                ✨ Reveal Destiny
+                <Sparkles size={18} />
+                Reveal Destiny
               </button>
             </div>
           </>
@@ -83,14 +78,9 @@ function App() {
                 card={card}
                 isRevealed={isRevealed}
                 index={index}
+                onReset={handleReset}
               />
             ))}
-
-            <div className="result-actions">
-              <button className="btn-secondary" onClick={handleReset}>
-                🔄 New Reading
-              </button>
-            </div>
           </div>
         )}
       </main>

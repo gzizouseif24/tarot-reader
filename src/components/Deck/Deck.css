@@ -27,6 +27,11 @@
   height: 300px;
   margin: 0 auto;
   transform-style: preserve-3d;
+  transition: transform 0.2s ease;
+}
+
+.deck-stack:hover {
+  transform: translateY(-5px);
 }
 
 /* Riffle Shuffle Card Container */
@@ -68,12 +73,31 @@
 
 .deck-info {
   text-align: center;
-  opacity: 0; /* Hide text, clean look */
-  height: 0;
-  overflow: hidden;
+  margin-top: 1rem;
 }
 
-/* Hide internal shuffle button since we moved it to Dock */
-.shuffle-button {
-  display: none;
+.cards-remaining {
+  color: rgba(148, 163, 184, 0.8);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.shuffle-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.shuffle-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
