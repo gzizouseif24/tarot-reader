@@ -17,8 +17,10 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
 
   // Update display cards when deck changes (after shuffle)
   useEffect(() => {
-    if (!isShuffling) {
-      setDisplayCards(deck.slice(0, 6));
+    if (!isShuffling && deck.length > 0) {
+      // Pick 6 random cards from the shuffled deck to display
+      const randomStartIndex = Math.floor(Math.random() * (deck.length - 6));
+      setDisplayCards(deck.slice(randomStartIndex, randomStartIndex + 6));
     }
   }, [deck, isShuffling]);
 
@@ -79,7 +81,7 @@ export function Deck({ isShuffling, cardsRemaining, onShuffle }: DeckProps) {
                 style={{
                   zIndex: isShuffling ? shufflePhase2.zIndex : stackPos.zIndex,
                 }}
-                initial={stackPos}
+                initial={false}
                 animate={isShuffling ? {
                   // Dynamic washing shuffle with multiple phases
                   x: [
