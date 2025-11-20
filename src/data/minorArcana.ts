@@ -125,18 +125,7 @@ export const wands: TarotCard[] = [
     reversedMeaning: 'Doing it all, delegating, releasing burdens, and collapse. Learning to let go of unnecessary responsibilities or reaching your breaking point.',
     image: '/assets/tarot-cards/wands/10-wands.png'
   },
-  {
-    id: 'wands-page',
-    cardName: 'Page of Wands',
-    arcana: 'minor',
-    suit: 'wands',
-    number: 'Page',
-    element: 'fire',
-    keywords: ['inspiration', 'ideas', 'discovery', 'free spirit'],
-    uprightMeaning: 'Inspiration, ideas, discovery, and limitless potential. A messenger bringing exciting news, creative sparks, or new opportunities for passionate pursuits.',
-    reversedMeaning: 'Lack of direction, procrastination, creating conflict, and setbacks. Ideas without action, immature behavior, or scattered energy.',
-    image: '/assets/tarot-cards/wands/page-wands.png'
-  },
+
   {
     id: 'wands-knight',
     cardName: 'Knight of Wands',
@@ -299,18 +288,7 @@ export const cups: TarotCard[] = [
     reversedMeaning: 'Disconnection, misalignment, broken relationships, and unhappy home. Disharmony in relationships or failure to live up to ideals.',
     image: '/assets/tarot-cards/cups/10-cups.png'
   },
-  {
-    id: 'cups-page',
-    cardName: 'Page of Cups',
-    arcana: 'minor',
-    suit: 'cups',
-    number: 'Page',
-    element: 'water',
-    keywords: ['creativity', 'intuition', 'curiosity', 'possibility'],
-    uprightMeaning: 'Creative opportunities, intuitive messages, curiosity, and possibility. A messenger bringing news of emotional or creative opportunities.',
-    reversedMeaning: 'Emotional immaturity, insecurity, disappointment, and moodiness. Creative blocks or emotionally immature behavior.',
-    image: '/assets/tarot-cards/cups/page-cups.png'
-  },
+
   {
     id: 'cups-knight',
     cardName: 'Knight of Cups',
@@ -473,18 +451,7 @@ export const swords: TarotCard[] = [
     reversedMeaning: 'Recovery, regeneration, fear of ruin, and survival. Rising from defeat or fearing the worst-case scenario.',
     image: '/assets/tarot-cards/swords/10-swords.png'
   },
-  {
-    id: 'swords-page',
-    cardName: 'Page of Swords',
-    arcana: 'minor',
-    suit: 'swords',
-    number: 'Page',
-    element: 'air',
-    keywords: ['curiosity', 'restlessness', 'mental energy', 'vigilance'],
-    uprightMeaning: 'Curiosity, mental energy, new ideas, and vigilance. A messenger bringing news or challenges, eager to learn and explore.',
-    reversedMeaning: 'Gossip, deception, haste, and lack of planning. Speaking without thinking or spreading rumors carelessly.',
-    image: '/assets/tarot-cards/swords/page-swords.png'
-  },
+
   {
     id: 'swords-knight',
     cardName: 'Knight of Swords',
@@ -647,18 +614,7 @@ export const pentacles: TarotCard[] = [
     reversedMeaning: 'Financial failure, loneliness, loss, and family conflicts. Loss of wealth, family disputes, or bankruptcy.',
     image: '/assets/tarot-cards/pentacles/10-pentacles.png'
   },
-  {
-    id: 'pentacles-page',
-    cardName: 'Page of Pentacles',
-    arcana: 'minor',
-    suit: 'pentacles',
-    number: 'Page',
-    element: 'earth',
-    keywords: ['ambition', 'desire', 'diligence', 'new opportunity'],
-    uprightMeaning: 'Manifestation, financial opportunity, skill development, and ambition. A messenger bringing practical opportunities or new ventures.',
-    reversedMeaning: 'Lack of progress, procrastination, get-rich-quick schemes, and laziness. Poor planning or lack of follow-through.',
-    image: '/assets/tarot-cards/pentacles/page-pentacles.png'
-  },
+
   {
     id: 'pentacles-knight',
     cardName: 'Knight of Pentacles',
