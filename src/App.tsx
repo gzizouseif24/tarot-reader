@@ -2,18 +2,23 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, RotateCcw } from 'lucide-react';
 import { useDeck } from './hooks/useDeck';
+import { useTarotReading } from './hooks/useTarotApi';
 import { Deck } from './components/Deck/Deck';
 import { Card } from './components/Card/Card';
 import { ReadingTypeSelector } from './components/ReadingTypeSelector';
+import { LoadingStates } from './components/LoadingStates/LoadingStates';
+import { ReadingDisplay } from './components/ReadingDisplay/ReadingDisplay';
 import type { ReadingType } from './data/types';
 import './App.css';
 
 function App() {
   const { deck, drawnCards, isShuffling, shuffle, handleShuffleComplete, draw, reset, cardsRemaining } = useDeck();
+  const { generateReading, loading: apiLoading, error: apiError } = useTarotReading();
   const [question, setQuestion] = useState('');
   const [isRevealed, setIsRevealed] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [readingType, setReadingType] = useState<ReadingType>('one');
+  const [aiReading, setAiReading] = useState<string | null>(null);
 
   // Preload all card images on mount
   useEffect(() => {
@@ -44,12 +49,24 @@ function App() {
     await shuffle();
   };
 
-  const handleDraw = () => {
+  const handleDraw = async () => {
     if (question.trim()) {
       const cardCount = readingType === 'one' ? 1 : 3;
-      draw(cardCount);
-      // Reveal after a short delay for suspense
+      const drawn = draw(cardCount);
+      
+      // Reveal cards after a short delay for suspense
       setTimeout(() => setIsRevealed(true), 500);
+      
+      // Generate AI reading after cards are revealed
+      setTimeout(async () => {
+        const result = await generateReading(question, drawn);
+        if (result.reading) {
+          setAiReading(result.reading);
+        } else if (result.error) {
+          console.error('Reading generation error:', result.error);
+          setAiReading('Unable to generate reading. Please try again.');
+        }
+      }, 1500); // Wait for card reveal animation
     } else {
       alert('Please enter your question or intention first!');
     }
@@ -59,6 +76,7 @@ function App() {
     reset();
     setQuestion('');
     setIsRevealed(false);
+    setAiReading(null);
     // Wait for reset to complete before shuffling
     setTimeout(() => shuffle(), 100);
   };
@@ -123,11 +141,31 @@ function App() {
                   card={card}
                   isRevealed={isRevealed}
                   index={index}
-                  onReset={drawnCards.length === 1 ? handleReset : undefined}
+                  onReset={drawnCards.length === 1 && !apiLoading && aiReading ? handleReset : undefined}
                 />
               ))}
             </div>
-            {drawnCards.length > 1 && isRevealed && (
+            
+            {/* Loading state while generating reading */}
+            {isRevealed && !aiReading && !apiError && (
+              <LoadingStates isLoading={apiLoading} />
+            )}
+            
+            {/* Display AI reading */}
+            {aiReading && (
+              <ReadingDisplay reading={aiReading} isVisible={true} />
+            )}
+            
+            {/* Error message */}
+            {apiError && (
+              <div className="error-message">
+                <p>⚠️ {apiError}</p>
+                <p className="error-hint">Make sure the backend is running on localhost:8000</p>
+              </div>
+            )}
+            
+            {/* New Reading button */}
+            {isRevealed && (aiReading || apiError) && (
               <button className="btn-new-reading-global" onClick={handleReset}>
                 <RotateCcw size={16} />
                 New Reading

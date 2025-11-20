@@ -363,3 +363,26 @@
     transform: scale(1.1);
   }
 }
+
+/* Error message */
+.error-message {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.error-message p {
+  color: #fca5a5;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.error-hint {
+  font-size: 0.85rem !important;
+  color: rgba(252, 165, 165, 0.7) !important;
+  margin-top: 0.75rem !important;
+}
