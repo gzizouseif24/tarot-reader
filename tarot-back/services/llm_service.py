@@ -22,12 +22,12 @@ def _get_client():
     )
 
 
-def _generate_reading_sync(question: str, card_contexts: List[Dict]) -> str:
+def _generate_reading_sync(question: str, card_contexts: List[Dict], zodiac_sign: str | None = None) -> str:
     """Synchronous reading generation"""
     client = _get_client()
-    
-    # Build the prompt
-    prompt = build_reading_prompt(question, card_contexts)
+
+    # Build the prompt with optional zodiac sign
+    prompt = build_reading_prompt(question, card_contexts, zodiac_sign)
     
     # Call Qwen via OpenAI-compatible API
     completion = client.chat.completions.create(
@@ -44,14 +44,15 @@ def _generate_reading_sync(question: str, card_contexts: List[Dict]) -> str:
     return reading
 
 
-async def generate_reading(question: str, card_contexts: List[Dict]) -> str:
+async def generate_reading(question: str, card_contexts: List[Dict], zodiac_sign: str | None = None) -> str:
     """
     Generate a tarot reading using Qwen LLM via OpenAI-compatible API
-    
+
     Args:
         question: User's question or intention
         card_contexts: List of card data with name, orientation, keywords, meaning
-    
+        zodiac_sign: Optional zodiac sign for personalized reading
+
     Returns:
         AI-generated reading text
     """
@@ -59,10 +60,10 @@ async def generate_reading(question: str, card_contexts: List[Dict]) -> str:
         # Run synchronous OpenAI call in thread pool to avoid blocking
         loop = asyncio.get_event_loop()
         reading = await loop.run_in_executor(
-            None, 
-            partial(_generate_reading_sync, question, card_contexts)
+            None,
+            partial(_generate_reading_sync, question, card_contexts, zodiac_sign)
         )
         return reading
-    
+
     except Exception as e:
         raise Exception(f"LLM generation failed: {str(e)}")

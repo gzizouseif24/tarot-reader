@@ -41,6 +41,7 @@ class CardInput(BaseModel):
 class ReadingRequest(BaseModel):
     question: str = Field(..., description="User's question or intention")
     cards: List[CardInput] = Field(..., min_length=1, max_length=3, description="Drawn cards (1-3)")
+    zodiac_sign: str | None = Field(None, description="Optional zodiac sign (aries, taurus, etc.)")
 
 
 class ReadingResponse(BaseModel):
@@ -84,9 +85,9 @@ async def create_reading(request: ReadingRequest):
                 "keywords": card.keywords,
                 "meaning": card.meaning
             })
-        
-        # Generate reading using LLM
-        reading_text = await generate_reading(request.question, card_contexts)
+
+        # Generate reading using LLM (with optional zodiac sign)
+        reading_text = await generate_reading(request.question, card_contexts, request.zodiac_sign)
         
         return ReadingResponse(reading=reading_text)
     
