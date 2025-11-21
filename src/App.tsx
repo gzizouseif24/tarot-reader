@@ -6,15 +6,17 @@ import { useTarotReading } from './hooks/useTarotApi';
 import { Deck } from './components/Deck/Deck';
 import { Card } from './components/Card/Card';
 import { ReadingTypeSelector } from './components/ReadingTypeSelector';
+import { ZodiacSelector } from './components/ZodiacSelector';
 import { LoadingStates } from './components/LoadingStates/LoadingStates';
 import { ReadingDisplay } from './components/ReadingDisplay/ReadingDisplay';
-import type { ReadingType } from './data/types';
+import type { ReadingType, ZodiacSign } from './data/types';
 import './App.css';
 
 function App() {
   const { deck, drawnCards, isShuffling, shuffle, handleShuffleComplete, draw, reset, cardsRemaining } = useDeck();
   const { generateReading, loading: apiLoading, error: apiError } = useTarotReading();
   const [question, setQuestion] = useState('');
+  const [zodiacSign, setZodiacSign] = useState<ZodiacSign | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [readingType, setReadingType] = useState<ReadingType>('one');
@@ -53,13 +55,13 @@ function App() {
     if (question.trim()) {
       const cardCount = readingType === 'one' ? 1 : 3;
       const drawn = draw(cardCount);
-      
+
       // Reveal cards after a short delay for suspense
       setTimeout(() => setIsRevealed(true), 500);
-      
+
       // Generate AI reading after cards are revealed
       setTimeout(async () => {
-        const result = await generateReading(question, drawn);
+        const result = await generateReading(question, drawn, zodiacSign);
         if (result.reading) {
           setAiReading(result.reading);
         } else if (result.error) {
@@ -75,6 +77,7 @@ function App() {
   const handleReset = () => {
     reset();
     setQuestion('');
+    setZodiacSign(null);
     setIsRevealed(false);
     setAiReading(null);
     // Wait for reset to complete before shuffling
@@ -103,6 +106,11 @@ function App() {
                 placeholder="What guidance do you seek?"
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
+                disabled={isShuffling}
+              />
+              <ZodiacSelector
+                selectedSign={zodiacSign}
+                onSignChange={setZodiacSign}
                 disabled={isShuffling}
               />
             </div>

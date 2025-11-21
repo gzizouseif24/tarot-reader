@@ -1,6 +1,6 @@
 // src/hooks/useTarotApi.ts
 import { useState } from 'react';
-import type { DrawnCard } from '../data/types';
+import type { DrawnCard, ZodiacSign } from '../data/types';
 import { getCardMeaning } from '../utils/cardHelpers';
 
 interface ReadingResponse {
@@ -15,12 +15,12 @@ export const useTarotReading = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const generateReading = async (question: string, cards: DrawnCard[]) => {
+  const generateReading = async (question: string, cards: DrawnCard[], zodiacSign?: ZodiacSign | null) => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      // Build request payload with card data
+      // Build request payload with card data and optional zodiac sign
       const requestBody = {
         question,
         cards: cards.map(card => ({
@@ -28,7 +28,8 @@ export const useTarotReading = () => {
           orientation: card.orientation,
           keywords: card.keywords,
           meaning: getCardMeaning(card) // Get upright or reversed meaning
-        }))
+        })),
+        zodiac_sign: zodiacSign || null
       };
 
       const response = await fetch('http://localhost:8000/api/reading', {
