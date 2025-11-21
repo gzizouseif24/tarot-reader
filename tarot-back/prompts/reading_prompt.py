@@ -33,7 +33,7 @@ Your role is to synthesize tarot card meanings into insightful, personalized rea
 - Provide actionable insight without being preachy
 - Feel authentic and meaningful, not generic
 
-Keep readings between 150-250 words. Be specific to their question."""
+Keep readings between 50-100. Be specific to their question."""
 
 
 POSITION_LABELS = {
