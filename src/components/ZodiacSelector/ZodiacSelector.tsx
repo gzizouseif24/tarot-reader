@@ -21,10 +21,6 @@ export function ZodiacSelector({
 
   return (
     <div className="zodiac-selector">
-      <label htmlFor="zodiac-select" className="zodiac-label">
-        <span className="label-icon">✨</span>
-        <span className="label-text">Your Sign</span>
-      </label>
       <select
         id="zodiac-select"
         className="zodiac-dropdown"

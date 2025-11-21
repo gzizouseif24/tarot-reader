@@ -2,59 +2,37 @@
 
 .zodiac-selector {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.zodiac-label {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-}
-
-.label-icon {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.label-text {
-  font-weight: 500;
 }
 
 .zodiac-dropdown {
-  background: rgba(15, 23, 42, 0.6);
+  background-color: rgba(15, 23, 42, 0.6);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23c084fc' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(148, 163, 184, 0.2);
   color: #f8fafc;
-  padding: 0.6rem 1rem;
-  border-radius: 12px;
+  padding: 0.75rem 2.5rem 0.75rem 1.5rem;
+  border-radius: 100px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   min-width: 160px;
   text-align: center;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  padding-right: 2.5rem;
 }
 
 .zodiac-dropdown:hover:not(:disabled) {
-  background: rgba(147, 51, 234, 0.15);
+  background-color: rgba(147, 51, 234, 0.15);
   border-color: rgba(147, 51, 234, 0.4);
   box-shadow: 0 0 15px rgba(147, 51, 234, 0.2);
 }
 
 .zodiac-dropdown:focus {
   outline: none;
+  background-color: rgba(147, 51, 234, 0.2);
   border-color: #9333ea;
   box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
 }
