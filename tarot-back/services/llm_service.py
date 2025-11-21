@@ -31,11 +31,11 @@ def _generate_reading_sync(question: str, card_contexts: List[Dict]) -> str:
     
     # Call Qwen via OpenAI-compatible API
     completion = client.chat.completions.create(
-        model="qwen-max",
+        model="qwen3-max",
         messages=[
             {"role": "user", "content": prompt}
         ],
-        temperature=0.8,
+        temperature=0.7,
         top_p=0.8,
         max_tokens=500,
     )
